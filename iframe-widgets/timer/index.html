@@ -58,7 +58,7 @@
 		<p id="time-display"></p>
 	</div>
 	<audio id="audio">
-		<source src="./audio.mp3" type="mp3">
+		<source src="./audio.mp3" type="audio/mpeg">
 	</audio>
 </div>
 
@@ -75,7 +75,6 @@
 
 	startTimingButton.addEventListener('click', function(){
 		var val = timeSelect.value; 
-		console.log(val); 
 
 		timeLeft = val * 60 * 1000; 
 
@@ -115,6 +114,12 @@
 			countdownPanel.style.display = 'none'; 
 			timeSelectPanel.style.display = 'block';  
 		}
+
+	}
+
+	audio.onended = function(){
+		audio.pause(); 
+		audio.currentTime = 0; 
 	}
 
 </script>
