@@ -71,14 +71,15 @@
 	var countdownPanel = document.querySelector('.countdown-panel'); 
 	var timeDisplay = document.querySelector('#time-display'); 
 	var audio = document.querySelector('#audio'); 
-	var timeLeft = 0; 
+	var timeLeft = 0;
+	var interval;  
 
 	startTimingButton.addEventListener('click', function(){
 		var val = timeSelect.value; 
 
 		timeLeft = val * 60 * 1000; 
 
-		setInterval(
+		interval = setInterval(
 			function( )
 			{ 
 				countdown(timeLeft);
@@ -104,12 +105,13 @@
 			}
 			var displayTime = minutes + ":" + seconds; 
 
-			console.log(timeLeft); 
 			countdownPanel.style.display = 'block'; 
 			timeSelectPanel.style.display = 'none'; 
 			timeDisplay.innerHTML = displayTime; 
+			console.log('inside if block');
 		} else {
-			clearInterval();
+			console.log('inside else block'); 
+			clearInterval(interval);
 			audio.play()
 			countdownPanel.style.display = 'none'; 
 			timeSelectPanel.style.display = 'block';  
@@ -117,10 +119,10 @@
 
 	}
 
-	audio.onended = function(){
+	audio.addEventListener('ended', function(){
+		console.log('ended'); 
 		audio.pause(); 
-		audio.currentTime = 0; 
-	}
+	}); 
 
 </script>
 </body>
