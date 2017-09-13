@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Education Timer</title>
+	<style type="text/css">
+		
+		.timer-wrapper {
+			width: 100%;
+			text-align: center;
+			font-size: 16px;
+			font-family: sans-serif; 
+		}
+
+		.timer-wrapper .countdown-panel {
+			display: none; 
+		}
+
+		.timer-wrapper #start-timing-button {
+			color: #fff;
+			background-color: blue; 
+			border-color: blue; 
+			border-radius: 4px; 
+			min-height: 40px;
+			font-size: 16px;
+
+		}
+
+		#time-display {
+			font-size: 2em; 
+			font-weight: bold;
+		}
+
+	</style>
+</head>
+<body>
+
+<div class="timer-wrapper">
+	<h2>Group Work Timer</h2>
+	<div class="time-select-panel">
+		<p>Choose how long you want to collaborate for, click Start Timing, then get to learning.</p>
+		<select id="time-select">
+			<option value="1">1 minute</option>
+			<option value="5">5 minutes</option>
+			<option value="10">10 minutes</option>
+			<option value="15">15 minutes</option>
+			<option value="20">20 minutes</option>
+			<option value="25">25 minutes</option>
+			<option value="30">30 minutes</option>
+			<option value="45">45 minutes</option>
+			<option value="60">60 minutes</option>
+		</select>
+		<br>
+		<br>
+		<button type="button" id="start-timing-button">Start Timing!</button>
+	</div>
+	<div class="countdown-panel">
+		<p>It's the final countdown, duh duh!</p>
+		<p id="time-display"></p>
+	</div>
+	<audio id="audio">
+		<source src="./audio.mp3" type="mp3">
+	</audio>
+</div>
+
+<!-- <iframe src="https://s3.amazonaws.com/audiovideo.jeffreyeverhart.com/index.html"></iframe> -->
+
+<script type="text/javascript">
+	var startTimingButton = document.querySelector('#start-timing-button'); 
+	var timeSelect = document.querySelector('#time-select'); 
+	var timeSelectPanel = document.querySelector('.time-select-panel'); 
+	var countdownPanel = document.querySelector('.countdown-panel'); 
+	var timeDisplay = document.querySelector('#time-display'); 
+	var audio = document.querySelector('#audio'); 
+	var timeLeft = 0; 
+
+	startTimingButton.addEventListener('click', function(){
+		var val = timeSelect.value; 
+		console.log(val); 
+
+		timeLeft = val * 60 * 1000; 
+
+		setInterval(
+			function( )
+			{ 
+				countdown(timeLeft);
+			}, 1000); 
+
+
+	}); 
+
+	function countdown(int){
+		if (timeLeft > 0){
+			timeLeft = timeLeft - 1000; 
+
+			var timeInSeconds = timeLeft / 1000; 
+			var minutes = Math.floor(timeInSeconds / 60); 
+			var seconds = timeInSeconds - (minutes * 60); 
+
+			if (minutes == 0){
+				minutes = "0" + minutes; 
+			}
+
+			if (seconds < 10){
+				seconds = "0" + seconds; 
+			}
+			var displayTime = minutes + ":" + seconds; 
+
+			console.log(timeLeft); 
+			countdownPanel.style.display = 'block'; 
+			timeSelectPanel.style.display = 'none'; 
+			timeDisplay.innerHTML = displayTime; 
+		} else {
+			clearInterval();
+			audio.play()
+			countdownPanel.style.display = 'none'; 
+			timeSelectPanel.style.display = 'block';  
+		}
+	}
+
+</script>
+</body>
+</html>
